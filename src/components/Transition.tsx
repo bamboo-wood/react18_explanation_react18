@@ -38,6 +38,7 @@ const fillteringAssignee = (assignee: string) => {
 export const Transition = () => {
   const [selectedAssignee, setSelectedAssignee] = useState<string>("a");
   const [tasks, setTasks] = useState<Array<Task>>(generateDummyTasks());
+  const [isShow, setIsShow] = useState<boolean>(false);
 
   const onClickAssignee = useCallback((assignee: string) => {
     setSelectedAssignee(assignee);
@@ -63,7 +64,11 @@ export const Transition = () => {
       <button onClick={() => onClickAssignee("")} style={{ marginTop: "10px" }}>
         Reset
       </button>
-      <TaskList tasks={tasks} />
+      <br />
+      <button onClick={() => setIsShow(!isShow)} style={{ marginTop: "10px" }}>
+        Display
+      </button>
+      {isShow && <TaskList tasks={tasks} />}
     </div>
   );
 };

@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const Avatar = memo((props: Props) => {
-  console.log("Avatar");
-
   const { children, onClick, isSelected = false } = props;
   return (
     <div

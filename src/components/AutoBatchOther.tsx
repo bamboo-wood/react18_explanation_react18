@@ -9,8 +9,6 @@ type Todo = {
 };
 
 export const AutoBatchOther = () => {
-  console.log("AutoBatchOther");
-
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [isFinishApi, setIsFinishApi] = useState<boolean>(false);
 

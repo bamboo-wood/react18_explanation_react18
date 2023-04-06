@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { Avatar } from "./Avatar";
 
 type Task = {
@@ -18,7 +18,7 @@ const member: Member = {
 };
 
 const generateDummyTasks = (): Array<Task> => {
-  return Array(1000)
+  return Array(10000)
     .fill("")
     .map((_, index) => ({
       id: index,
@@ -38,9 +38,13 @@ export const Transition = () => {
   const [selectedAssignee, setSelectedAssignee] = useState<string>("a");
   const [tasks, setTasks] = useState<Array<Task>>(generateDummyTasks());
 
+  const [isPending, startTransition] = useTransition();
+
   const onClickAssignee = useCallback((assignee: string) => {
     setSelectedAssignee(assignee);
-    setTasks(fillteringAssignee(assignee));
+    startTransition(() => {
+      setTasks(fillteringAssignee(assignee));
+    });
   }, []);
 
   return (
@@ -65,7 +69,12 @@ export const Transition = () => {
       {tasks.map((task) => (
         <div
           key={task.id}
-          style={{ width: "300px", margin: "auto", background: "lavender" }}
+          style={{
+            width: "300px",
+            margin: "auto",
+            background: "lavender",
+            opacity: isPending ? 0.5 : 1,
+          }}
         >
           <p>{task.title}</p>
           <p>{task.assignee}</p>

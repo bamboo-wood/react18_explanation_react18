@@ -1,7 +1,8 @@
-import { useCallback, useState, useTransition } from "react";
+import { useCallback, useState } from "react";
 import { Avatar } from "./Avatar";
+import { TaskList } from "./TaskList";
 
-type Task = {
+export type Task = {
   id: number;
   title: string;
   assignee: string;
@@ -38,13 +39,9 @@ export const Transition = () => {
   const [selectedAssignee, setSelectedAssignee] = useState<string>("a");
   const [tasks, setTasks] = useState<Array<Task>>(generateDummyTasks());
 
-  const [isPending, startTransition] = useTransition();
-
   const onClickAssignee = useCallback((assignee: string) => {
     setSelectedAssignee(assignee);
-    startTransition(() => {
-      setTasks(fillteringAssignee(assignee));
-    });
+    setTasks(fillteringAssignee(assignee));
   }, []);
 
   return (
@@ -66,20 +63,7 @@ export const Transition = () => {
       <button onClick={() => onClickAssignee("")} style={{ marginTop: "10px" }}>
         Reset
       </button>
-      {tasks.map((task) => (
-        <div
-          key={task.id}
-          style={{
-            width: "300px",
-            margin: "auto",
-            background: "lavender",
-            opacity: isPending ? 0.5 : 1,
-          }}
-        >
-          <p>{task.title}</p>
-          <p>{task.assignee}</p>
-        </div>
-      ))}
+      <TaskList tasks={tasks} />
     </div>
   );
 };

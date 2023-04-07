@@ -3,12 +3,10 @@ import { AutoBatchEventHandler } from "./components/AutoBatchEventHandler";
 import { AutoBatchOther } from "./components/AutoBatchOther";
 import { Transition } from "./components/Transition";
 import { ReactQuery } from "./components/ReactQuery";
-import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 
 function App() {
-  const { reset } = useQueryErrorResetBoundary();
   return (
     <div className="App">
       <AutoBatchEventHandler />

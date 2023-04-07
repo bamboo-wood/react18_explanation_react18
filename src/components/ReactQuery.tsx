@@ -1,28 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-
-type Album = {
-  userId: number;
-  id: number;
-  title: string;
-};
-
-const fetchAlbums = async () => {
-  const result = await axios.get<Album[]>(
-    "https://jsonplaceholder.typicode.com/albums"
-  );
-  return result.data;
-};
+import { Sidebar } from "./Sidebar";
+import { AlbumList } from "./AlbunList";
+import { TodoList } from "./TodoList";
+import { ErrorBoundary } from "react-error-boundary";
+import { Suspense } from "react";
 
 export const ReactQuery = () => {
-  const { data } = useQuery<Album[]>(["albums"], fetchAlbums);
-
   return (
-    <div>
-      <p>ReactQuery</p>
-      {data?.map((album) => (
-        <div key={album.id}>{album.title}</div>
-      ))}
+    <div style={{ display: "flex", padding: "16px" }}>
+      <Sidebar />
+      <div style={{ flexGrow: 1 }}>
+        <ErrorBoundary fallback={<div>Error!</div>}>
+          <Suspense fallback={<div>Albums Loading...</div>}>
+            <AlbumList />
+          </Suspense>
+        </ErrorBoundary>
+        <ErrorBoundary fallback={<div>Error!</div>}>
+          <Suspense fallback={<div>Todos Loading...</div>}>
+            <TodoList />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </div>
   );
 };
